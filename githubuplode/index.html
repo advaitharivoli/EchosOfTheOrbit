@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <base href="./">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHOES OF THE ORBIT // NASA Discarded Equipment Storytelling</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <!-- Google Fonts: Space Grotesk, Bangers, Comic Neue, Fredoka, Patrick Hand, Chewy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Chewy&family=Comic+Neue:ital,wght@0,400;0,700;1,700&family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Space+Grotesk:wght@500;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Three.js and GLTFLoader for 3D graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- Always land on top on refresh -->
+    <script>
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    </script>
+</head>
+
+<body class="gate-locked">
+
+    <!-- SVG Filters for Blueprint Sketch Edge Extraction (Inspired by WebLove / Tesla Concept) -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
+        <filter id="blueprintSketchFilter" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 
+                                                0.3333 0.3333 0.3333 0 0 
+                                                0.3333 0.3333 0.3333 0 0 
+                                                0      0      0      1 0" />
+            <feConvolveMatrix order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" />
+            <feComponentTransfer>
+                <feFuncR type="linear" slope="3.0" />
+                <feFuncG type="linear" slope="3.0" />
+                <feFuncB type="linear" slope="3.0" />
+            </feComponentTransfer>
+        </filter>
+        <filter id="blueprintCyanFilter" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 
+                                                0.3333 0.3333 0.3333 0 0 
+                                                0.3333 0.3333 0.3333 0 0 
+                                                0      0      0      1 0" />
+            <feConvolveMatrix order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" />
+            <!-- Tint into radiant cyan architectural blueprint lines -->
+            <feColorMatrix type="matrix" values="0 0 0 0 0.0
+                                                0 0 0 0 0.9
+                                                0 0 0 0 1.0
+                                                0 0 0 1.5 0" />
+        </filter>
+    </svg>
+
+    <!-- Top Mission Control Navigation -->
+    <header class="top-nav">
+        <div class="brand-section">
+            <img src="assets/logo.svg" alt="Echoes of the Orbit Logo" class="brand-logo-img">
+            <span class="nasa-meatball-badge">NASA SPACE APPS 2026</span>
+            <div class="brand-title">
+                ECHOES OF THE <span>ORBIT</span>
+            </div>
+        </div>
+
+        <!-- Planet Selector -->
+        <div class="planet-selector-bar">
+            <button class="planet-btn active" data-planet="mars">🪐 MARS</button>
+            <button class="planet-btn" data-planet="moon">🌕 THE MOON</button>
+        </div>
+
+        <div class="nav-controls">
+            <a id="github-repo-btn" href="https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME" target="_blank" rel="noopener noreferrer" class="telemetry-btn" style="text-decoration: none; border-color: rgba(255, 255, 255, 0.25); color: #ccd6f6;" title="View Source on GitHub">🐙 GITHUB</a>
+            <button id="nav-capcom-btn" class="telemetry-btn" style="border-color: #00ff88; color: #00ff88;">🤖 CAPCOM
+                AI</button>
+            <button id="audio-toggle-btn" class="telemetry-btn">🔊 AUDIO: ACTIVE TELEMETRY</button>
+        </div>
+    </header>
+
+    <!-- TESLA ROADSTER STYLE FULL-SCREEN CINEMATIC WELCOME & STORYTELLING PROLOGUE -->
+    <section class="apple-hero-section" id="welcome-gate-anchor">
+        <div class="apple-hero-container">
+
+            <!-- Large, Ultra-Crisp Glowing Mission Logo -->
+            <div class="hero-logo-showcase">
+                <img src="assets/logo.svg" alt="Echoes of the Orbit Official Mission Patch" class="hero-main-logo">
+            </div>
+
+            <!-- Hack Club Scattered Vinyl Stickers Header -->
+            <div class="hc-stickers-row">
+                <span class="hc-sticker hc-sticker-red wobble-on-hover" style="--rot: -2.5deg;">★ NASA SPACE APPS 2026
+                    ★</span>
+                <span class="hc-sticker hc-sticker-yellow wobble-on-hover" style="--rot: 2deg;">📖 3D ILLUSTRATED
+                    ADVENTURE BOOK</span>
+                <span class="hc-sticker hc-sticker-cyan wobble-on-hover" style="--rot: -1.5deg;">🎬 4K ARCHIVAL
+                    ORBITS</span>
+                <span class="hc-sticker hc-sticker-mint wobble-on-hover" style="--rot: 3deg;">🛰️ REAL NSSDCA
+                    DATA</span>
+            </div>
+
+            <h1 class="apple-hero-headline hc-hero-headline">
+                NOT SPACE JUNK.<br>
+                <span class="hc-marker-yellow">ROBOT LEGENDS.</span>
+            </h1>
+
+            <!-- Comprehensive Mission Purpose & About the Platform -->
+            <div class="hero-narrative-prologue hc-card hc-washi-tape">
+                <div class="hc-stamp">[ NASA SPACE APPS CHALLENGE 2026 // OFFICIAL MISSION BRIEF ]</div>
+                
+                <h2 style="font-family: var(--font-heading, 'Space Grotesk', sans-serif); font-size: 1.45rem; color: #00e5ff; margin: 12px 0 10px; font-weight: 800; letter-spacing: 0.03em;">
+                    🚀 WHAT IS THIS WEBSITE FOR?
+                </h2>
+                
+                <p class="story-lead-quote" style="margin-bottom: 14px;">
+                    <em>"Imagine waking up 200 million miles from home. Your solar wings are heavy with red dust. The Martian sun is setting... You have ONE final transmission to send to Earth before eternal silence..."</em>
+                </p>
+
+                <p class="story-body-text" style="margin-bottom: 16px;">
+                    Since 1969, humanity has left over <strong>200 metric tons</strong> of robotic rovers, landers, and Apollo descent stages across the Moon and Mars. Too often, textbooks dismiss them as cold "discarded space hardware" or lifeless debris. <strong>Echoes of the Orbit</strong> resurrects these silent relics as living, heroic legends. We transform authentic NASA Planetary Data System telemetry, high-resolution orbital imagery, and real final radio transmissions into an interactive, multi-generational storytelling experience.
+                </p>
+
+                <!-- 3 Pillars of the Website -->
+                <div class="platform-purpose-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 20px 0 16px;">
+                    <div style="background: rgba(0, 229, 255, 0.06); border: 1px solid rgba(0, 229, 255, 0.25); border-radius: 12px; padding: 14px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #00e5ff; margin-bottom: 6px;">🪐 1. 3D Globe Exploration</div>
+                        <div style="font-size: 0.84rem; color: #cad7ec; line-height: 1.5;">
+                            Spin high-precision 3D globes of Mars and the Moon. Locate 13 verified landing sites with authentic NASA HiRISE and LROC geodetic coordinates.
+                        </div>
+                    </div>
+                    <div style="background: rgba(255, 170, 0, 0.06); border: 1px solid rgba(255, 170, 0, 0.25); border-radius: 12px; padding: 14px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #ffaa00; margin-bottom: 6px;">📖 2. 3-Tier Adaptive Stories</div>
+                        <div style="font-size: 0.84rem; color: #cad7ec; line-height: 1.5;">
+                            Content adapting dynamically to you: <strong>Kids</strong> get 3D comic flipbooks with robot read-alouds, <strong>Teens</strong> get Gen Z vibe checks, and <strong>Adults</strong> get deep scientific research dossiers.
+                        </div>
+                    </div>
+                    <div style="background: rgba(51, 255, 153, 0.06); border: 1px solid rgba(51, 255, 153, 0.25); border-radius: 12px; padding: 14px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #33ff99; margin-bottom: 6px;">🎬 3. 4K Reconstructions & Audio</div>
+                        <div style="font-size: 0.84rem; color: #cad7ec; line-height: 1.5;">
+                            Watch 4K continuous 3D camera fly-arounds reconstructed from NASA surface imagery, and hear the poignant final transmissions sent before perpetual shutdown.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.45); border-left: 3px solid #00e5ff; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 0.88rem; color: #ffffff; margin-top: 10px;">
+                    <span style="font-size: 1.2rem;">👉</span>
+                    <span><strong>HOW TO GET STARTED:</strong> Select your <strong>Mission Clearance</strong> (Kids, Teen, or Adult) below to unlock the orbital exploration deck!</span>
+                </div>
+            </div>
+
+            <!-- Futuristic NASA Mission Clearance & 3-Tier Access Hub -->
+            <div class="explorer-rank-gate mission-clearance-box" id="explorer-rank-gate">
+                <div class="clearance-badge-pill">
+                    <span class="pulsing-radar-dot"></span>
+                    <span>NASA ORBITAL TELEMETRY GATEWAY // SELECT EXPLORER CLEARANCE</span>
+                </div>
+
+                <div class="gate-header">
+                    <h2 class="clearance-title">
+                        CHOOSE YOUR <span class="neon-highlight">MISSION CLEARANCE</span>
+                    </h2>
+                    <p class="clearance-sub">
+                        Select your explorer tier or enter your age below to unlock the planetary exploration deck, 3D globes, and tailored rover archives:
+                    </p>
+                </div>
+
+                <!-- Optional Direct Age Input -->
+                <div class="age-input-row" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                    <label for="age-input-field" style="font-family: var(--font-mono, monospace); font-size: 0.95rem; color: #00e5ff; font-weight: 700; letter-spacing: 0.05em;">
+                        🔢 ENTER AGE:
+                    </label>
+                    <input type="number" id="age-input-field" min="1" max="120" placeholder="e.g. 11"
+                        style="width: 110px; padding: 10px 14px; font-size: 1.05rem; font-family: var(--font-mono, monospace); font-weight: bold; background: rgba(0, 0, 0, 0.65); border: 2px solid #00e5ff; border-radius: 8px; color: #fff; text-align: center; outline: none; box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);" />
+                    <button type="button" id="age-submit-btn" class="telemetry-btn"
+                        style="padding: 10px 20px; font-size: 0.95rem; font-weight: 800; border: 2px solid #39ff14; background: rgba(57, 255, 20, 0.15); color: #39ff14; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
+                        UNLOCK GATE ➔
+                    </button>
+                </div>
+
+                <!-- 3 On-Theme Futuristic Tier Buttons -->
+                <div class="tier-selection-grid">
+                    <button type="button" class="tier-launch-card tier-kids-card" data-tier="junior" id="tier-btn-kids">
+                        <div class="tier-card-header">
+                            <span class="tier-level-pill badge-kids">LEVEL 01 // CADET</span>
+                            <span class="tier-age-badge">🎒 KIDS (&lt;13)</span>
+                        </div>
+                        <div class="tier-card-center">
+                            <div class="tier-hero-icon">🚀</div>
+                            <div class="tier-card-heading">KIDS CLUBHOUSE</div>
+                            <div class="tier-card-blurb">
+                                3D Illustrated Comic Books, Rover Cartoons, Cosmic Joke-O-Matic &amp; Robot Voice Read-Aloud!
+                            </div>
+                        </div>
+                        <div class="tier-card-cta cta-kids">
+                            <span>LAUNCH CLUBHOUSE</span>
+                            <span class="cta-arrow">➔</span>
+                        </div>
+                    </button>
+
+                    <button type="button" class="tier-launch-card tier-teen-card" data-tier="teen" id="tier-btn-teen">
+                        <div class="tier-card-header">
+                            <span class="tier-level-pill badge-teen">LEVEL 02 // SPECIALIST</span>
+                            <span class="tier-age-badge">⚡ TEEN (13–18)</span>
+                        </div>
+                        <div class="tier-card-center">
+                            <div class="tier-hero-icon">🛸</div>
+                            <div class="tier-card-heading">TEEN MISSION CONTROL</div>
+                            <div class="tier-card-blurb">
+                                Gen Z Vibe Check, 3D Specs, Unfiltered Rover Lore, No Cap Science, Stats &amp; Receipts!
+                            </div>
+                        </div>
+                        <div class="tier-card-cta cta-teen">
+                            <span>LAUNCH MISSION CONTROL</span>
+                            <span class="cta-arrow">➔</span>
+                        </div>
+                    </button>
+
+                    <button type="button" class="tier-launch-card tier-adult-card" data-tier="adult" id="tier-btn-adult">
+                        <div class="tier-card-header">
+                            <span class="tier-level-pill badge-adult">LEVEL 03 // SCIENTIST</span>
+                            <span class="tier-age-badge">🔬 ADULT (18+)</span>
+                        </div>
+                        <div class="tier-card-center">
+                            <div class="tier-hero-icon">🛰️</div>
+                            <div class="tier-card-heading">RESEARCH ARCHIVES</div>
+                            <div class="tier-card-blurb">
+                                Sub-meter LROC/HiRISE Geodetic Datums, Engineering Blueprints, NSSDCA Records &amp; Raw Orbits.
+                            </div>
+                        </div>
+                        <div class="tier-card-cta cta-adult">
+                            <span>LAUNCH RESEARCH DECK</span>
+                            <span class="cta-arrow">➔</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Gate Validation Error Message -->
+                <div id="gate-error-msg" class="gate-error-badge" style="display: none; margin-top: 20px;">
+                    ⚡ PLEASE SELECT YOUR EXPLORER TIER (KIDS, TEEN, OR ADULT) TO UNLOCK MISSION DATA!
+                </div>
+
+                <!-- JOKE-O-MATIC 3000 (Integrated Space Joke Station) -->
+                <div class="joke-o-matic-box" id="joke-o-matic" style="margin-top: 28px; background: rgba(10, 14, 28, 0.7); border: 1px solid rgba(0, 229, 255, 0.25);">
+                    <div class="joke-box-header">
+                        <div class="joke-robot-head">🤖</div>
+                        <div style="flex: 1;">
+                            <div class="joke-box-title" style="color: #00e5ff;">COSMIC JOKE-O-MATIC 3000</div>
+                            <div class="joke-box-subtitle">Free space giggles powered by Martian solar panels!</div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button id="speak-joke-btn" class="telemetry-btn"
+                                title="Speak Joke Aloud with Cadet Robot Voice"
+                                style="font-size: 0.85rem; padding: 6px 14px; border-color: #33d6a6; color: #33d6a6;">
+                                🗣️ READ ALOUD!
+                            </button>
+                            <button id="get-new-joke-btn" class="telemetry-btn"
+                                style="font-size: 0.85rem; padding: 6px 14px; border-color: #ffaa00; color: #ffdd59;">
+                                🎲 ANOTHER JOKE!
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="joke-content-stage">
+                        <div class="joke-question-text" id="joke-question">
+                            Q: Why did the Opportunity rover love driving across Mars?
+                        </div>
+                        <div class="joke-punchline-container">
+                            <button id="reveal-punchline-btn" class="reveal-btn" style="background: rgba(0, 229, 255, 0.15); border: 1px solid #00e5ff; color: #00e5ff;">
+                                👉 TAP TO REVEAL PUNCHLINE! 👈
+                            </button>
+                            <div class="joke-punchline-text" id="joke-punchline" style="display: none; color: #ffde38;">
+                                A: Because there were no red traffic lights and no speed limits—only red dust! 😂✨
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- APPLE PRO BIG STATS CALLOUT STRIP -->
+        <div class="apple-stats-strip">
+            <div class="apple-stat-item">
+                <div class="stat-number">5,111</div>
+                <div class="stat-label">SOLS SURVIVED ON MARS</div>
+                <div class="stat-detail">Opportunity Rover (MER-B)</div>
+            </div>
+            <div class="apple-stat-item">
+                <div class="stat-number">45.16<span class="stat-unit">KM</span></div>
+                <div class="stat-label">OFF-WORLD DRIVING RECORD</div>
+                <div class="stat-detail">Longest route driven by any robotic vehicle</div>
+            </div>
+            <div class="apple-stat-item">
+                <div class="stat-number">1,318</div>
+                <div class="stat-label">EXTRATERRESTRIAL MARSQUAKES</div>
+                <div class="stat-detail">Recorded by InSight's SEIS instrument</div>
+            </div>
+            <div class="apple-stat-item">
+                <div class="stat-number">72</div>
+                <div class="stat-label">AERIAL SORTIES FLOWN</div>
+                <div class="stat-detail">First powered flights in another planet's sky</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLAGSHIP: CINEMATIC 4K RECONSTRUCTION THEATER (Direct Video Showcase) -->
+    <section class="cinematic-theater-section" id="video-theater">
+        <div class="theater-header">
+            <div class="scanner-badge" style="border-color: #ff7755; color: #ff7755;">🎬 4K CINEMATIC RECONSTRUCTION
+                THEATER</div>
+            <h2 class="scanner-title">WATCH THE SILENT EXPLORERS IN 4K MOTION</h2>
+            <p class="scanner-desc">
+                High-definition, continuous 3D camera fly-arounds generated from authentic NASA archival imagery. Select
+                a spacecraft to launch its 4K video orbit.
+            </p>
+
+            <div class="theater-craft-tabs">
+                <button class="theater-tab-btn active" data-video="assets/Videos/opportunity.mp4"
+                    data-target="Opportunity (MER-B)" data-loc="Endeavour Crater, Mars"
+                    data-quote="&quot;My battery is low and it's getting dark.&quot;">
+                    🔴 OPPORTUNITY (MARS)
+                </button>
+                <button class="theater-tab-btn" data-video="assets/Videos/insight.mp4" data-target="InSight Lander"
+                    data-loc="Elysium Planitia, Mars"
+                    data-quote="&quot;My power’s really low, so this may be the last image I can send...&quot;">
+                    🔴 INSIGHT LANDER (MARS)
+                </button>
+                <button class="theater-tab-btn" data-video="assets/Videos/apollo_11_eagle.mp4"
+                    data-target="Apollo 11 'Eagle' LM" data-loc="Sea of Tranquility, Moon"
+                    data-quote="&quot;Here men from the planet Earth first set foot upon the Moon. We came in peace for all mankind.&quot;">
+                    🌕 APOLLO 11 "EAGLE" (MOON)
+                </button>
+                <button class="theater-tab-btn" data-video="assets/Videos/apollo_lunar_rover.mp4"
+                    data-target="Apollo Lunar Roving Vehicle" data-loc="Hadley-Apennine, Moon"
+                    data-quote="&quot;The duct-tape fender held fast across 35 kilometers of lunar craters.&quot;">
+                    🌕 APOLLO LUNAR ROVER (MOON)
+                </button>
+            </div>
+        </div>
+
+        <div class="theater-stage-container">
+            <!-- 4K Video Screen with Telemetry Framing -->
+            <div class="theater-video-wrapper">
+                <video id="theater-main-video" autoplay loop muted playsinline preload="auto"
+                    src="assets/Videos/opportunity.mp4"></video>
+                <div class="video-crt-overlay"></div>
+
+                <div class="video-live-tag">
+                    <span class="live-dot"></span>
+                    <span>NASA ARCHIVAL 4K RECONSTRUCTION</span>
+                </div>
+
+                <div class="video-telemetry-hud">
+                    <div class="hud-craft-name" id="theater-craft-name">OPPORTUNITY (MER-B)</div>
+                    <div class="hud-craft-loc" id="theater-craft-loc">📍 Endeavour Crater, Mars</div>
+                    <div class="hud-craft-quote" id="theater-craft-quote">"My battery is low and it's getting dark."
+                    </div>
+                </div>
+
+                <!-- Video Controls Toolbar -->
+                <div class="video-controls-toolbar">
+                    <button class="theater-control-btn" id="theater-play-toggle">⏸ PAUSE</button>
+                    <button class="theater-control-btn" id="theater-audio-toggle">🔇 UNMUTE AUDIO</button>
+                    <button class="theater-control-btn" id="theater-fullscreen-btn">⛶ FULLSCREEN</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Planetary Telemetry Screen -->
+    <main class="dashboard-grid" id="globe-section">
+
+        <!-- 3D Interactive Globe Canvas -->
+        <section class="scene-viewport">
+            <div id="globe-canvas-container"></div>
+
+            <!-- HUD Overlay -->
+            <div class="hud-telemetry-overlay">
+                <div class="hud-planet-header">
+                    <h1 id="current-planet-name">MARS</h1>
+                    <div class="hud-planet-subtitle" id="planet-subtitle">
+                        The Red Planet - Cemetery & Sanctuary of Pioneers
+                    </div>
+                </div>
+
+                <div class="hud-specs-strip">
+                    <div class="hud-spec-pill">
+                        <span class="label" id="label-stat-1">GRAVITY:</span>
+                        <span class="val" id="planet-stat-gravity">3.721 m/s²</span>
+                    </div>
+                    <div class="hud-spec-pill">
+                        <span class="label" id="label-stat-2">AVG TEMP:</span>
+                        <span class="val" id="planet-stat-temp">-63°C</span>
+                    </div>
+                    <div class="hud-spec-pill">
+                        <span class="label" id="label-stat-3">ATMOSPHERE:</span>
+                        <span class="val" id="planet-stat-atmos">95.3% CO₂</span>
+                    </div>
+                    <div class="hud-spec-pill">
+                        <span class="label" id="label-stat-4">ARCHIVES:</span>
+                        <span class="val" id="planet-stat-relics">5 Logged Hardware</span>
+                    </div>
+                </div>
+
+                <!-- NASA Eyes Simulation Speed Controls (Visible in Solar System view) -->
+                <div class="hud-solar-controls" id="solar-sim-controls"
+                    style="display: none; margin-top: 10px; gap: 8px;">
+                    <button class="telemetry-btn sim-speed-btn active" data-speed="1"
+                        style="padding: 4px 8px; font-size: 0.72rem;">1x REAL-TIME</button>
+                    <button class="telemetry-btn sim-speed-btn" data-speed="5"
+                        style="padding: 4px 8px; font-size: 0.72rem;">5x FAST</button>
+                    <button class="telemetry-btn sim-speed-btn" data-speed="20"
+                        style="padding: 4px 8px; font-size: 0.72rem;">20x WARP</button>
+                    <button class="telemetry-btn" id="solar-pause-btn" style="padding: 4px 8px; font-size: 0.72rem;">⏸
+                        PAUSE</button>
+                </div>
+            </div>
+
+            <div class="hud-instructions">
+                💡 Drag planet to rotate • Click pulsing beacon to decode transmission
+            </div>
+        </section>
+
+        <!-- Side Equipment Roster -->
+        <aside class="side-panel">
+            <div class="side-panel-header">
+                <div class="side-panel-title">
+                    <span id="roster-heading">SURFACE RELICS</span>
+                    <button id="catalog-filter-btn" class="catalog-badge-btn" title="Click to filter relics">CATALOG:
+                        ALL</button>
+                </div>
+                <input type="text" id="roster-search" class="search-input"
+                    placeholder="Search rovers, landers, sites...">
+            </div>
+
+            <div class="roster-scroll-area" id="equipment-roster-list">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- FLAGSHIP FEATURE: SKETCH-TO-RENDER SCANNER (Tesla Concept Style) -->
+    <section class="scanner-showcase-section" id="sketch-scanner">
+        <div class="scanner-header">
+            <div class="scanner-badge">⚡ NASA ARCHIVAL LIDAR RECONSTRUCTION</div>
+            <h2 class="scanner-title">FROM BLUEPRINT SKETCH TO PHOTOREALISTIC 3D</h2>
+            <p class="scanner-desc">
+                Drag the slider or scroll to witness the architectural schematic transform into the fully textured
+                Martian/Lunar explorer.
+            </p>
+            <div class="scanner-craft-tabs">
+                <button class="scanner-craft-btn active" data-craft="opportunity">OPPORTUNITY (MER-B)</button>
+                <button class="scanner-craft-btn" data-craft="apollo_lm">APOLLO 11 LM "EAGLE"</button>
+                <button class="scanner-craft-btn" data-craft="ingenuity">INGENUITY SCOUT</button>
+                <button class="scanner-craft-btn" data-craft="perseverance">PERSEVERANCE</button>
+            </div>
+        </div>
+
+        <div class="scanner-viewport-wrapper">
+            <!-- Technical Blueprint Grid Background -->
+            <div class="blueprint-technical-grid">
+                <div class="technical-callout top-left">
+                    <span class="tech-code">DWG NO: NASA-JPL-2003</span>
+                    <span class="tech-spec">TOLERANCE: ±0.05mm // SCALE: 1:1</span>
+                </div>
+                <div class="technical-callout top-right">
+                    <span class="tech-code">STATUS: RETIRED IN PLACE</span>
+                    <span class="tech-spec">OPTICAL ARRAY: HI-GAIN S-BAND</span>
+                </div>
+                <div class="technical-callout bottom-left">
+                    <span class="tech-code">CHASSIS: ROCKER-BOGIE TITANIUM</span>
+                    <span class="tech-spec">POWER: 140W TRIPLE-JUNCTION GAAS</span>
+                </div>
+                <div class="technical-callout bottom-right">
+                    <span class="tech-code">RESTING SITE: ENDEAVOUR CRATER</span>
+                    <span class="tech-spec">ORBITAL LIDAR CONFIRMED</span>
+                </div>
+            </div>
+
+            <!-- Double Layer Comparison Stage -->
+            <div class="scanner-stage" id="scanner-stage" style="--scan-pos: 50%;">
+
+                <!-- Bottom Layer: Technical Blueprint Sketch (Filtered via SVG convolution edge detection) -->
+                <div class="scan-layer sketch-layer">
+                    <img id="sketch-image" src="assets/renders/opportunity.png" alt="Blueprint Sketch">
+                    <div class="layer-watermark blueprint-mark">ARCHITECTURAL SCHEMATIC // DRAFT SPEC</div>
+                </div>
+
+                <!-- Top Layer: Photorealistic 3D Render (Clipped dynamically by slider position) -->
+                <div class="scan-layer render-layer" id="render-layer">
+                    <img id="render-image" src="assets/renders/opportunity.png" alt="Photorealistic 3D Render">
+                    <div class="layer-watermark render-mark">RESTORED 3D TELEMETRY RENDER</div>
+                </div>
+
+                <!-- The Glowing Laser Wipe Line & Handle -->
+                <div class="laser-scanner-line" id="laser-line">
+                    <div class="laser-beam"></div>
+                    <div class="laser-handle">
+                        <span class="arrow">◀</span>
+                        <span class="handle-text">SLIDE TO SCAN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                </div>
+
+                <!-- Invisible Range Slider overlay for smooth dragging on all touch & mouse devices -->
+                <input type="range" min="0" max="100" value="50" class="scanner-range-slider" id="scanner-slider"
+                    aria-label="Slide to reveal 3D render">
+
+                <!-- Bambu Lab / Apple Pro Interactive Hotspot Pins -->
+                <div class="interactive-hotspots-layer" id="hotspots-layer">
+                    <div class="hotspot-pin" style="top: 26%; left: 58%;" data-title="Pancam Stereo Mast"
+                        data-desc="Dual 1024x1024 CCD stereo cameras mounted 1.5m high, providing human-eye perspectives of the Martian terrain.">
+                        <div class="hotspot-pulse"></div>
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <div class="tooltip-title">PANCAM STEREO MAST</div>
+                            <div class="tooltip-body">Dual CCD cameras providing true-color alien panoramas.</div>
+                        </div>
+                    </div>
+
+                    <div class="hotspot-pin" style="top: 44%; left: 34%;" data-title="Triple-Junction Solar Wings"
+                        data-desc="1.3 m² gallium arsenide solar cells. Repeatedly cleaned by Martian dust devils for over 5,000 sols.">
+                        <div class="hotspot-pulse"></div>
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <div class="tooltip-title">TRIPLE-JUNCTION SOLAR WINGS</div>
+                            <div class="tooltip-body">140W peak power. Kept alive by dust devils clearing dust.</div>
+                        </div>
+                    </div>
+
+                    <div class="hotspot-pin" style="top: 74%; left: 62%;" data-title="Rocker-Bogie Suspension"
+                        data-desc="Differential chassis allowing wheels to climb obstacles twice their diameter with zero mechanical springs.">
+                        <div class="hotspot-pulse"></div>
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <div class="tooltip-title">ROCKER-BOGIE CHASSIS</div>
+                            <div class="tooltip-body">Titanium lever suspension climbing rocks up to 25cm.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Auto-scan playback control & percentage readout -->
+            <div class="scanner-control-bar">
+                <button class="telemetry-btn" id="auto-scan-btn">▶ AUTO SCAN PULSE</button>
+                <div class="scan-percentage-readout">RECONSTRUCTION: <span id="scan-pct-display"
+                        style="color: var(--cyan-glow);">50%</span></div>
+                <button class="telemetry-btn" id="view-in-3d-btn">🔍 INSPECT IN 3D CHAMBER</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- APPLE PRO / BAMBU LAB BENTO GRID SHOWCASE -->
+    <section class="apple-bento-section" id="engineering-bento">
+        <div class="bento-header">
+            <div class="scanner-badge">ENGINEERING DEEP DIVE</div>
+            <h2 class="scanner-title">BUILT FOR THE COLD DESERTS OF DEEP SPACE</h2>
+            <p class="scanner-desc">
+                Designed to operate millions of miles away from human touch. Discover the innovations that keep these
+                artifacts preserved for future generations.
+            </p>
+        </div>
+
+        <div class="bento-grid-container">
+            <!-- Bento Card 1: Large Feature Card -->
+            <div class="bento-card bento-large">
+                <div class="bento-tag">SPACE ARCHAEOLOGY & HERITAGE</div>
+                <h3 class="bento-title">Humanity's First Extraterrestrial Museums</h3>
+                <p class="bento-text">
+                    Under the 1967 Outer Space Treaty and the 2020 One Small Step to Protect Human Heritage in Space
+                    Act,
+                    Apollo 11's Tranquility Base and the Mars landing sites are recognized as cultural heritage
+                    sanctuaries.
+                    They will remain untouched until future lunar and Martian colonies visit them.
+                </p>
+                <div class="bento-spec-strip">
+                    <div class="bento-mini-stat">
+                        <span class="num">1969</span>
+                        <span class="lbl">First Artifact Left</span>
+                    </div>
+                    <div class="bento-mini-stat">
+                        <span class="num">200+</span>
+                        <span class="lbl">Metric Tons on Moon</span>
+                    </div>
+                    <div class="bento-mini-stat">
+                        <span class="num">ZERO</span>
+                        <span class="lbl">Atmospheric Rust on Moon</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Card 2: Nuclear Power & Thermal Endurance -->
+            <div class="bento-card">
+                <div class="bento-tag">POWER GENERATION</div>
+                <h3 class="bento-title">The Nuclear & Solar Hearts</h3>
+                <p class="bento-text">
+                    From SNAP-27 plutonium radioisotope generators on Apollo 17 to ultra-efficient multi-junction solar
+                    cells,
+                    these power architectures endured -130°C nights and fierce radiation.
+                </p>
+                <div class="bento-accent-code">SNAP-27 RTG: 73.5W CONTINUOUS BROADCAST</div>
+            </div>
+
+            <!-- Bento Card 3: Deep Space Network Telemetry -->
+            <div class="bento-card">
+                <div class="bento-tag">COMMUNICATIONS</div>
+                <h3 class="bento-title">Deep Space Network (DSN)</h3>
+                <p class="bento-text">
+                    Listening across 200 million miles of vacuum. Massive 70-meter dish antennas at Goldstone, Madrid,
+                    and Canberra tracked the fading micro-watt carrier signals until the final Sol.
+                </p>
+                <div class="bento-accent-code">CARRIER: 8.4 GHz X-BAND TELEMETRY</div>
+            </div>
+
+            <!-- Bento Card 4: Open 3D Pipeline & Education -->
+            <div class="bento-card bento-wide">
+                <div class="bento-tag">AI & INTERACTIVE 3D</div>
+                <h3 class="bento-title">A Living Classroom for Future Astronauts</h3>
+                <p class="bento-text">
+                    By merging official NASA 3D assets, Three.js WebGL rendering, and procedural Web Audio synthesis,
+                    Echoes of the Orbit transforms static history lessons into an interactive tactile telemetry
+                    simulator for students worldwide.
+                </p>
+                <div class="bento-tech-badges">
+                    <span class="bento-badge">THREE.JS</span>
+                    <span class="bento-badge">WEB AUDIO API</span>
+                    <span class="bento-badge">NASA NSSDCA</span>
+                    <span class="bento-badge">MESHY & TRIPO COMPATIBLE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NASA CHALLENGE REQUIREMENT: OFFICIAL DATASETS & CITATIONS SECTION -->
+    <section class="nasa-datasets-section" id="nasa-datasets">
+        <div class="datasets-container">
+            <div class="scanner-badge" style="border-color: #00ff88; color: #00ff88;">NASA CHALLENGE MANDATE // OPEN
+                SCIENCE DATASETS</div>
+            <h2 class="scanner-title">OFFICIAL NASA OPEN DATASETS & ARCHIVAL CITATIONS</h2>
+            <p class="scanner-desc">
+                In strict compliance with the NASA Space Apps Challenge rules, <strong>Echoes of the Orbit</strong>
+                directly integrates official NASA mission datasets, coordinates, telemetry downlinks, and orbiter
+                imagery.
+            </p>
+
+            <div class="datasets-cards-grid">
+                <!-- Dataset 1: NSSDCA Master Catalog -->
+                <div class="dataset-card">
+                    <div class="dataset-icon">🛰️</div>
+                    <div class="dataset-title">NASA NSSDCA Master Catalog</div>
+                    <div class="dataset-agency">NASA Goddard Space Flight Center</div>
+                    <p class="dataset-desc">
+                        The definitive archive for spacecraft orbital data and telemetry. Every craft in our system is
+                        indexed by its authentic International Designator:
+                    </p>
+                    <div class="dataset-ids-pill">
+                        <code>Opportunity: 2003-032A</code> • <code>InSight: 2018-042A</code><br>
+                        <code>Apollo 11: 1969-059C</code> • <code>Apollo 15 LRV: 1971-063C</code>
+                    </div>
+                    <a href="https://nssdc.gsfc.nasa.gov/nmc/" target="_blank" class="dataset-link">Explore NSSDCA
+                        Master Catalog ➔</a>
+                </div>
+
+                <!-- Dataset 2: NASA Solar System Treks -->
+                <div class="dataset-card">
+                    <div class="dataset-icon">🗺️</div>
+                    <div class="dataset-title">NASA Solar System Treks (Mars & Moon)</div>
+                    <div class="dataset-agency">NASA JPL / NASA Ames Research Center</div>
+                    <p class="dataset-desc">
+                        Web-based GIS portals featuring meter-scale orbiter imagery from the Lunar Reconnaissance
+                        Orbiter (LRO) and Mars Reconnaissance Orbiter (MRO) HiRISE camera.
+                    </p>
+                    <div class="dataset-ids-pill">
+                        <code>Trek Coordinates: Lat -2.34° Lon 354.67° (Endeavour)</code><br>
+                        <code>Apollo 11 Base: Lat 0.67°N Lon 23.47°E (Tranquility)</code>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: auto;">
+                        <a href="https://trek.nasa.gov/mars/" target="_blank" class="dataset-link" style="flex: 1;">Mars
+                            Trek ➔</a>
+                        <a href="https://trek.nasa.gov/moon/" target="_blank" class="dataset-link" style="flex: 1;">Moon
+                            Trek ➔</a>
+                    </div>
+                </div>
+
+                <!-- Dataset 3: MER Atmospheric Dust & Telemetry Records -->
+                <div class="dataset-card">
+                    <div class="dataset-icon">📊</div>
+                    <div class="dataset-title">NASA JPL Mission Science Archives</div>
+                    <div class="dataset-agency">Jet Propulsion Laboratory / Caltech</div>
+                    <p class="dataset-desc">
+                        Raw science logs tracking the atmospheric dust opacity index (Tau) during the 2018
+                        planet-encircling dust storm, and InSight SEIS marsquake catalog (1,318 events).
+                    </p>
+                    <div class="dataset-ids-pill">
+                        <code>MER-B Sol 5111 Downlink: Tau > 10.8 (Extreme)</code><br>
+                        <code>SEIS Event S1222a: Magnitude 4.7 Marsquake</code>
+                    </div>
+                    <a href="https://mars.nasa.gov/mer/" target="_blank" class="dataset-link">View JPL Mission Logs
+                        ➔</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Educational Activities Hub -->
+    <section class="bottom-activities-container">
+
+        <!-- Cadet Tribute Station -->
+        <div class="activity-card">
+            <h3>📡 TRANSMIT A TRIBUTE</h3>
+            <p>
+                Leave an encouraging transmission to NASA's silent rovers and landers. Your message is recorded into the
+                global student memory bank.
+            </p>
+            <form id="tribute-form">
+                <div class="tribute-inputs">
+                    <input type="text" id="tribute-name" placeholder="Your Name or Call-sign" required>
+                    <input type="text" id="tribute-city" placeholder="Your City / School" required>
+                </div>
+                <textarea id="tribute-message" class="tribute-textarea"
+                    placeholder="Write your transmission to Opportunity, Spirit, InSight, or Apollo..."
+                    required></textarea>
+                <button type="submit" class="tribute-submit-btn">BEAM TRANSMISSION TO SPACE</button>
+            </form>
+
+            <div class="tributes-wall" id="tributes-wall">
+                <!-- Tributes populated dynamically -->
+            </div>
+        </div>
+
+        <!-- Mission Scavenger Hunt / Quiz -->
+        <div class="activity-card">
+            <h3>🎯 MISSION LOG DECODER</h3>
+            <p>
+                Test your knowledge of NASA space history, lunar landings, and Martian explorers!
+            </p>
+            <div id="scavenger-question-container">
+                <!-- Quiz populated dynamically -->
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Equipment Dossier Modal -->
+    <div class="dossier-modal" id="artifact-dossier-modal">
+        <div class="dossier-container">
+
+            <!-- Modal Header -->
+            <div class="dossier-header-bar">
+                <div class="dossier-title-group" style="display: flex; gap: 14px; align-items: center;">
+                    <img id="dossier-rover-photo" src="assets/renders/opportunity.png" alt="Rover photo"
+                        style="width: 58px; height: 58px; object-fit: cover; border-radius: 8px; border: 2px solid var(--gold-accent); box-shadow: 0 0 10px rgba(255, 170, 0, 0.4); display: none;">
+                    <div>
+                        <h2 id="dossier-name">Opportunity (MER-B)</h2>
+                        <div class="dossier-meta-subtitle">
+                            <span id="dossier-designation">Mars Exploration Rover B</span>
+                            <span class="status-pill" id="dossier-status-pill">Silent</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="holo-tool-btn" id="dossier-open-storybook-btn"
+                        style="background: rgba(255, 170, 0, 0.25); border-color: #ffaa00; color: #ffdd59; font-weight: 700;">📖
+                        READ STORYBOOK</button>
+                    <button class="close-btn" id="close-dossier-btn">&times;</button>
+                </div>
+            </div>
+
+            <!-- Modal Content Grid -->
+            <div class="dossier-body">
+
+                <!-- Left Column: 3D Holographic Chamber & Telemetry Stream -->
+                <div class="dossier-column-left">
+
+                    <div class="hologram-box" id="dossier-media-chamber">
+                        <!-- Authentic NASA Vehicle Photograph (Hero Display - never blank!) -->
+                        <div id="vehicle-photo-stage"
+                            style="width: 100%; height: 100%; position: relative; background: radial-gradient(circle at center, #0e1526 0%, #050810 100%); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <img id="dossier-hero-vehicle-img" src="assets/renders/opportunity.png" alt="Vehicle Surface Photograph"
+                                style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px;">
+                            <div class="photo-overlay-tag" id="photo-overlay-tag"
+                                style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.85); border: 1px solid var(--gold-accent); color: var(--gold-accent); font-family: var(--font-mono); font-size: 0.72rem; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px;">
+                                📷 NASA SURFACE PHOTOGRAPH
+                            </div>
+                        </div>
+
+                        <!-- 3D Interactive Model Canvas -->
+                        <div id="model-viewer-canvas" style="display: none; width: 100%; height: 100%;"></div>
+
+                        <!-- 4K Video Player -->
+                        <video id="hologram-video-player" loop muted playsinline
+                            style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
+
+                        <!-- Media Stage Mode Switcher Toolbar -->
+                        <div class="hologram-toolbar">
+                            <button class="holo-tool-btn active" id="view-photo-mode-btn">📷 REAL PHOTO</button>
+                            <button class="holo-tool-btn" id="toggle-3d-view-btn">🛰️ 3D MODEL</button>
+                            <button class="holo-tool-btn" id="toggle-video-view-btn" style="display: none;">🎬 4K
+                                VIDEO</button>
+                            <button class="holo-tool-btn" id="toggle-wireframe-btn"
+                                style="display: none;">WIREFRAME</button>
+                            <button class="holo-tool-btn" id="reset-3d-btn" style="display: none;">RESET VIEW</button>
+                        </div>
+                    </div>
+
+                    <!-- Last Transmission Radio Signal Box -->
+                    <div class="last-transmission-panel">
+                        <div class="transmission-badge">
+                            <span>📡 DECODED FINAL CARRIER SIGNAL</span>
+                        </div>
+                        <div class="transmission-quote" id="transmission-quote">
+                            "My battery is low and it's getting dark."
+                        </div>
+                        <div class="transmission-teletype" id="transmission-teletype">
+                            >>> DECODING DOWNLINK PACKET...
+                        </div>
+                        <div class="transmission-context" id="transmission-context"></div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Student Storytelling & NASA Science -->
+                <div class="dossier-column-right">
+
+                    <div class="story-section">
+                        <div class="section-label">📜 THE MACHINE SPEAKS (STORYTELLING)</div>
+                        <div style="font-weight: 700; color: var(--gold-accent); margin-bottom: 0.6rem;"
+                            id="dossier-tagline"></div>
+                        <div class="perspective-story" id="dossier-perspective-narrative"></div>
+                    </div>
+
+                    <div class="story-section">
+                        <div class="section-label">🏆 KEY DISCOVERIES & FIRSTS</div>
+                        <ul class="achievements-list" id="dossier-achievements"></ul>
+                    </div>
+
+                    <div class="story-section">
+                        <div class="section-label">⚙️ MISSION & TELEMETRY SPECS</div>
+                        <div class="specs-table">
+                            <div class="specs-cell">
+                                <div class="key">FINAL RESTING SITE: <button type="button" class="info-help-btn" data-term="uncertainty" title="Explain Landing Coordinates & Precision">ⓘ</button></div>
+                                <div class="val" id="dossier-location"></div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">OPERATIONAL LIFESPAN: <button type="button" class="info-help-btn" data-term="sol" title="Explain Sols (Martian Days)">ⓘ</button></div>
+                                <div class="val" id="dossier-lifespan"></div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">TOTAL DISTANCE TRAVELED:</div>
+                                <div class="val" id="dossier-dist"></div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">WHY IT MATTERS:</div>
+                                <div class="val" id="dossier-why-matters"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Geodetic & Engineering Architecture (Adult/Teen Section) -->
+                    <div class="story-section" id="dossier-geodetic-section"
+                        style="border-left-color: var(--cyan-glow);">
+                        <div class="section-label" style="color: var(--cyan-glow); display: flex; align-items: center; justify-content: space-between;">
+                            <span>📐 GEODETIC TELEMETRY & RECONNAISSANCE</span>
+                            <span style="font-size: 0.75rem; color: #39ff14; font-weight: 700; font-family: var(--font-mono, monospace);">CLICK ⓘ TO EXPLAIN TERMS</span>
+                        </div>
+                        <div class="specs-table">
+                            <div class="specs-cell">
+                                <div class="key">COORDINATE DATUM: <button type="button" class="info-help-btn" data-term="datum" title="What is a Coordinate Datum?">ⓘ</button></div>
+                                <div class="val" id="dossier-datum-val">IAU 2000 Mars Planetocentric</div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">VERIFICATION SATELLITE: <button type="button" class="info-help-btn" data-term="satellite" title="What is a Verification Satellite?">ⓘ</button></div>
+                                <div class="val" id="dossier-recon-sat">MRO HiRISE (25 cm/px) + CTX Global Mosaic</div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">ORBITAL OBSERVATION ID: <button type="button" class="info-help-btn" data-term="observation" title="What is an Orbital Observation ID?">ⓘ</button></div>
+                                <div class="val" id="dossier-observation-id">HiRISE ESP_013954_1780</div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">POWER ARCHITECTURE: <button type="button" class="info-help-btn" data-term="power" title="What is Power Architecture?">ⓘ</button></div>
+                                <div class="val" id="dossier-power-arch">Multi-junction GaAs Solar Arrays + Li-Ion</div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">ONBOARD AVIONICS & CPU: <button type="button" class="info-help-btn" data-term="avionics" title="What is Avionics & CPU?">ⓘ</button></div>
+                                <div class="val" id="dossier-avionics-val">RAD6000 32-bit RISC @ 20 MHz (VxWorks RTOS)
+                                </div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">SCIENCE PAYLOAD SUITE: <button type="button" class="info-help-btn" data-term="payload" title="What is Science Payload?">ⓘ</button></div>
+                                <div class="val" id="dossier-payload-val">Pancam, Microscopic Imager, APXS, Mini-TES
+                                </div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">COMMS & DSN FREQUENCY: <button type="button" class="info-help-btn" data-term="comms" title="What is DSN & Radio Frequencies?">ⓘ</button></div>
+                                <div class="val" id="dossier-comms-val">X-band DTE + UHF Electra Relay (400 MHz)</div>
+                            </div>
+                            <div class="specs-cell">
+                                <div class="key">PRIMARY RESEARCH CITATION: <button type="button" class="info-help-btn" data-term="citation" title="What is NASA PDS?">ⓘ</button></div>
+                                <div class="val" id="dossier-citation-val">NASA Planetary Data System (PDS) Archives
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cosmic Fun Facts & Mission Wit (Teen+ & Kids Section) -->
+                    <div class="story-section" id="dossier-trivia-section"
+                        style="border-left-color: #ffde38; background: rgba(255, 222, 56, 0.05);">
+                        <div class="section-label" style="color: #ffde38;">💡 COSMIC FUN FACTS & MISSION WIT</div>
+                        <div class="trivia-content-box" id="dossier-trivia-box"
+                            style="display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Populated dynamically with craft specific fun fact and humor -->
+                        </div>
+                    </div>
+
+                    <!-- Official NASA Archives Links -->
+                    <div class="nasa-links-bar">
+                        <a href="#" target="_blank" class="nasa-ext-link" id="dossier-nssdc-link">
+                            🔗 NASA NSSDCA Master Catalog
+                        </a>
+                        <a href="#" target="_blank" class="nasa-ext-link" id="dossier-trek-link">
+                            🗺️ Explore Site on NASA Treks
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Global HUD Toast Notification (Teen+ and Kids Mode Activation) -->
+    <div class="hud-toast-notification" id="mode-hud-notification">
+        <div class="toast-content-group">
+            <div class="toast-tag" id="toast-tag">⚡ NASA DSN // CLEARANCE: RESEARCHER</div>
+            <div class="toast-title" id="toast-title">🔬 TEEN+ MISSION CONTROL ENGAGED</div>
+            <div class="toast-desc" id="toast-desc">
+                Sub-meter LROC geodetic coordinates, datum standards & telemetry logs unlocked!
+            </div>
+        </div>
+        <button type="button" class="toast-close-btn" id="toast-close-btn" title="Dismiss">✕</button>
+    </div>
+
+    <!-- Interactive NASA Jargon Explainer Lexicon Modal (For Teens & Kids) -->
+    <div class="lexicon-modal-backdrop" id="lexicon-modal-backdrop">
+        <div class="lexicon-popup-card" id="lexicon-popup-card" role="dialog" aria-modal="true" aria-labelledby="lexicon-term-heading">
+            <div class="lexicon-header">
+                <div class="lexicon-icon-badge" id="lexicon-icon-badge">💡</div>
+                <div class="lexicon-header-info">
+                    <span class="lexicon-category-pill" id="lexicon-category-pill">PLANETARY NAVIGATION</span>
+                    <h3 class="lexicon-term-heading" id="lexicon-term-heading">COORDINATE DATUM</h3>
+                </div>
+                <button type="button" class="lexicon-close-btn" id="lexicon-close-btn" aria-label="Close explainer">&times;</button>
+            </div>
+            <div class="lexicon-body">
+                <p class="lexicon-simple-desc" id="lexicon-simple-desc">
+                    A mathematical map grid NASA uses to pinpoint exact locations on another world.
+                </p>
+                
+                <div class="lexicon-tip-box lexicon-teen-tip" id="lexicon-teen-box">
+                    <div class="lexicon-tip-label">⚡ TEEN VIBE CHECK & ANALOGY</div>
+                    <div id="lexicon-teen-text">
+                        Think of it as Google Maps for Mars. Earth uses Greenwich, UK as zero-longitude; Mars uses a tiny crater named Airy-0 to anchor its global grid.
+                    </div>
+                </div>
+
+                <div class="lexicon-tip-box lexicon-junior-tip" id="lexicon-junior-box">
+                    <div class="lexicon-tip-label">⭐ CADET SPACE TIP</div>
+                    <div id="lexicon-junior-text">
+                        An invisible treasure map grid drawn over Mars so future astronauts always know where the rover is parked!
+                    </div>
+                </div>
+            </div>
+            <div class="lexicon-footer-dismiss">
+                <button type="button" class="lexicon-gotit-btn" id="lexicon-gotit-btn">GOT IT! ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Antigravity Mouse Warp Canvas -->
+    <script src="js/effect.js"></script>
+
+    <!-- Application Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
