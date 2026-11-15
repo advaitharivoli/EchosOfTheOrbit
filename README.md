@@ -20,10 +20,10 @@
 > [!IMPORTANT]
 > **Click below to explore the live, interactive deployment of Echoes of the Orbit:**
 >
-> 🚀 **Live Interactive Website:** **`https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/`**  
-> *(Replace with your deployed GitHub Pages, Vercel, or custom domain URL)*
+> 🚀 **Live Interactive Website:** **`https://advaitharivoli.github.io/EchosOfTheOrbit/`**  
 >
-> 📦 **GitHub Repository:** **`https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME`**  
+> 📦 **GitHub Repository:** **`https://github.com/advaitharivoli/EchosOfTheOrbit`**  
+> 📑 **Comprehensive Project Documentation:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)  
 > 🎬 **Video Demonstration Walkthrough:** [VIDEO_DEMO_SCRIPT.md](VIDEO_DEMO_SCRIPT.md)  
 > 📊 **Project Slide Deck:** [Space Apps Presentation_Blr 2026_Project submission.pdf](Space%20Apps%20Presentation_Blr%202026_Project%20submission.pdf)  
 > 🛰️ **NASA Archival Citations & Bibliography:** [NASA_RESOURCES.md](NASA_RESOURCES.md)

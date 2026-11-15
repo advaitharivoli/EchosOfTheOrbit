@@ -101,16 +101,10 @@ Echoes of the Orbit
 Not Space Junk. Robot Legends — Preserving Planetary Exploration Heritage Across Mars & The Moon
 ```
 
-### 3. High-Level Summary
+### 3. High-Level Summary (One-Paragraph Submission Version // 156 Words)
+*Directly answers: What did you develop? How does it address the challenge? Why is it important?*
 ```text
-Since 1969, humanity has left over 200 metric tons of historic robotic explorers, Apollo lunar modules, and rovers across Mars and the Moon. Often dismissed as cold "space debris," these machines are the foundational monuments of human curiosity.
-
-Echoes of the Orbit is an interactive, multi-generational 3D platform that brings these silent explorers back to life. Powered by NASA’s Planetary Data System (PDS) and MRO HiRISE sub-meter imagery, our platform dynamically adapts its storytelling across three distinct audience clearances:
-• Cadet Mode (<13): 3D illustrated adventure books, simplified science analogies, and audio narration.
-• Teen Mission Control (13–18): Unfiltered rover "vibe checks," authentic mission lore, and interactive jargon decoders.
-• Research Archives (18+): Peer-reviewed telemetry datums, radioisotope decay models, and sub-meter geodetic coordinates.
-• CAPCOM AI: An intelligent on-board mission control assistant providing real-time telemetry answers.
-• Future Accessibility Vision: Integrating universal screen-reader narration, dyslexia-friendly high-contrast typography, and tactile audio descriptions so children and individuals with visual, hearing, or motor disabilities can explore space science barrier-free.
+We developed Echoes of the Orbit, an interactive 3D planetary digital archaeology platform powered by authentic NASA Planetary Data System (PDS) archives, NSSDC mission records, and MRO HiRISE sub-meter orbital imagery. Our project addresses the challenge of preserving over 200 metric tons of historic rovers, landers, and Apollo hardware scattered across Mars and the Moon, which are too often dismissed as mere "space junk." By transforming raw telemetry into living legends, our solution dynamically adapts across three audience tiers: 3D illustrated adventure books for kids, unfiltered mission lore and vibe checks for teens, and peer-reviewed geodetic datums for researchers—all integrated with an intelligent CAPCOM AI assistant. Echoes of the Orbit is vital because it protects humanity's off-world cultural heritage before future Artemis and Mars surface operations disturb these historic landing sites, while advancing universal accessibility through assistive narration, high-contrast typography, and descriptive audio so children and individuals with disabilities can experience space exploration barrier-free.
 ```
 
 ### 4. NASA Data & Resources Used
